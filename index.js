@@ -15,6 +15,7 @@ webSocket.on('request',(req)=>{
 
     connection.on('message',(message)=>{
         const data = JSON.parse(message.utf8Data)
+        console.log(data)
         const user = findUser(data.name)
 
         switch(data.type){
@@ -23,6 +24,7 @@ webSocket.on('request',(req)=>{
                     connection.send(JSON.stringify({
                         type:'kullanıcı zaten oturumda'
                     }))
+                    console.log("zaten oturumdasın")
                     return
                 }
                 const newUser = {
@@ -36,11 +38,11 @@ webSocket.on('request',(req)=>{
                 let userToCall = findUser(data.target)
                 if(userToCall){
                     connection.send(JSON.stringify({
-                        type:"call_response", data:"kullanıcı arama için hazır"
+                        type:"call_response", data:"online"
                     }))
                 } else {
                     connection.send(JSON.stringify({
-                        type:"call_response", data:"kullanıcı çevrimdışı"
+                        type:"call_response", data:"offline"
                     }))
                 }
             break
